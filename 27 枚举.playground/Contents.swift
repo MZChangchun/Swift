@@ -70,6 +70,65 @@ enum ASCIIControlCharacter: Character {
     case CarriageReturn = "\r"
 }
 
+//原始值的隐式赋值
+enum Plant: Int {
+    case Mercury = 1, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune
+}
+print(Plant.Mars.rawValue)
+enum CompassPoints: String {
+    case North, South, East, West
+}
+print(CompassPoints.North.rawValue)
+
+//使用原始值初始化枚举实例
+let possiblePlanet = Plant(rawValue: 7)//  是可选的类型,或者说“可选的，有可能为nil
+
+let positionToFind = 9
+if let somePlanet = Plant(rawValue: positionToFind) {
+    switch somePlanet {
+    case .Earth:
+        print("Mostly harmless")
+    default:
+        print("Not a safe place for humans")
+    }
+} else {
+    print("There isn't planet at position \(positionToFind)")
+}
+
+/**
+ *  递归枚举
+ */
+//递归枚举是一种枚举类型，他有一个或者多个枚举成员使用该枚举类型的实例作为关联值，可以在枚举成员前加上indirect表示可递归
+enum ArithmeticExpression {
+    case Number(Int)
+    indirect case Addition(ArithmeticExpression, ArithmeticExpression)
+    indirect case Multiplication(ArithmeticExpression, ArithmeticExpression)
+}
+//所有成员都是递归
+//indirect enum ArithmeticExpression {
+//    case Number(Int)
+//    case Addition(ArithmeticExpression, ArithmeticExpression)
+//    case Multiplication(ArithmeticExpression, ArithmeticExpression)
+//}
+
+func evaluate(expression: ArithmeticExpression) -> Int {
+    switch expression {
+    case .Number(let value):
+        return value
+    case .Addition(let left, let right):
+        return evaluate(left) + evaluate(right)
+    case .Multiplication(let left, let right):
+        return evaluate(left) * evaluate(right)
+    }
+}
+//计算（5 ＋ 4） ＊ 3
+let five = ArithmeticExpression.Number(5)
+let four = ArithmeticExpression.Number(4)
+let sum = ArithmeticExpression.Addition(five, four)
+let product = ArithmeticExpression.Multiplication(sum, ArithmeticExpression.Number(2))
+print(evaluate(product))
+
+
 
 
 

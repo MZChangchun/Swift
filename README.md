@@ -63,7 +63,7 @@ _webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:confi
 ### b.直接掉用`WKWebView `的`evaluateJavaScript`方法
 ```[webView evaluateJavaScript:@"document.documentElement.style.webkitUserSelect='none';" completionHandler:nil];```
 
-### c.web端掉用app
+### c.web端调用app
 首先，设置```WKScriptMessageHandler```代理 注册JS名
 ```[_configuretion.userContentController addScriptMessageHandler:self name:@"setTitle"];```
 在代理方法中判断和获取JS的详细信息
